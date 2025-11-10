@@ -1,0 +1,132 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* === Header & Nav === */
+header {
+  background-color: #d99273;
+  color: white;
+  padding: 1.5rem 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+nav a:hover {
+  opacity: 0.8;
+}
+
+/* === Main Content === */
+main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+h2 {
+  border-bottom: 2px solid #e29e4a;
+  padding-bottom: 0.5rem;
+  color: #4a90e2;
+}
+
+a {
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* === Footer === */
+footer {
+  background-color: #333;
+  justify-content: center;
+  /* padding-left: 10px; */
+  font-size: 0.9rem;
+  gap: 1rem;
+  padding: 0.2rem 1rem;
+}
+
+.footer-info {
+  gap: 2rem;
+  color: white;
+  text-align: left;
+  justify-content: center;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    align-items: center;
+  }
+
+  .navbar {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar ul {
+    display: none;
+    flex-direction: column;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    border-radius: 0 0 8px 8px;
+    padding: 0.5rem 0;
+    align-items: center;
+  }
+
+  .navbar ul.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .footer-info {
+    display: contents;
+  }
+}
