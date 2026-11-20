@@ -174,3 +174,17 @@ footer {
   margin-top: 1rem;
   text-align: left;
 }
+
+.cv-page .annotationLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cv-page .annotationLayer a {
+  position: absolute;
+  pointer-events: auto;
+  display: block;
+  cursor: pointer;
+}

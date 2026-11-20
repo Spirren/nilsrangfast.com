@@ -3,6 +3,46 @@ import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
 
+async function renderAnnotations(page, cssViewport, pageEl) {
+  const annotations = await page.getAnnotations({ intent: "display" });
+  const linkAnnotations = annotations.filter(
+    (item) => item.subtype === "Link" && (item.url || item.unsafeUrl)
+  );
+
+  if (linkAnnotations.length === 0) return;
+
+  const annotationLayerEl = document.createElement("div");
+  annotationLayerEl.className = "annotationLayer";
+
+  for (const ann of linkAnnotations) {
+    const url = ann.url || ann.unsafeUrl;
+    if (!url || !Array.isArray(ann.rect) || ann.rect.length !== 4) continue;
+
+    const [x1, y1, x2, y2] = cssViewport.convertToViewportRectangle(ann.rect);
+    const left = Math.min(x1, x2);
+    const top = Math.min(y1, y2);
+    const width = Math.abs(x2 - x1);
+    const height = Math.abs(y2 - y1);
+
+    const linkEl = document.createElement("a");
+    linkEl.href = url;
+    linkEl.style.position = "absolute";
+    linkEl.style.left = `${left}px`;
+    linkEl.style.top = `${top}px`;
+    linkEl.style.width = `${width}px`;
+    linkEl.style.height = `${height}px`;
+
+    if (!url.startsWith("mailto:") && !url.startsWith("tel:")) {
+      linkEl.target = "_blank";
+      linkEl.rel = "noopener noreferrer";
+    }
+
+    annotationLayerEl.appendChild(linkEl);
+  }
+
+  pageEl.appendChild(annotationLayerEl);
+}
+
 export async function renderPdfInto(container, pdfUrl) {
   if (!container || !pdfUrl) return;
 
@@ -51,6 +91,8 @@ export async function renderPdfInto(container, pdfUrl) {
       viewport: cssViewport,
     });
     await textLayer.render();
+
+    await renderAnnotations(page, cssViewport, pageEl);
   }
 }
 
