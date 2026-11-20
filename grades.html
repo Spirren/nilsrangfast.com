@@ -8,7 +8,7 @@
   </head>
   <body>
     <header>
-      <h1>Nils Ragfast Wickenberg</h1>
+      <h1>Nils Rangfast Wickenberg</h1>
       <nav class="navbar">
         <div class="menu-toggle" id="menu-toggle">&#9776;</div>
         <ul id="nav-links">
@@ -21,7 +21,7 @@
 
     <main>
       <main>
-        <embed src="images/gradeschalmers.jpg" width="100%" />
+        <div id="cv-container" class="cv-pages" data-pdf-src="images/intyg.pdf"></div>
         <embed src="images/gradespython.svg" width="100%" />
       </main>
     </main>
@@ -30,7 +30,6 @@
         <div>
           <p>Email: <span id="email"></span></p>
           <p>Phone: <span id="phone"></span></p>
-          <p>Location: <span id="location"></span></p>
         </div>
         <div>
           <p>Linkedin: <a id="linkedin" target="_blank"></a></p>
@@ -39,5 +38,6 @@
       </div>
     </footer>
   </body>
+  <script type="module" src="js/pdf-embed.js"></script>
   <script src="vars.js"></script>
 </html>

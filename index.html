@@ -20,7 +20,7 @@
     </header>
 
     <main>
-      <div id="cv-container" class="cv-pages"></div>
+      <div id="cv-container" class="cv-pages" data-pdf-src="images/cv.pdf"></div>
       <div class="cv-actions">
         <a href="images/cv.pdf" download>Download CV</a>
       </div>
@@ -31,7 +31,6 @@
         <div>
           <p>Email: <span id="email"></span></p>
           <p>Phone: <span id="phone"></span></p>
-          <p>Location: <span id="location"></span></p>
         </div>
         <div>
           <p>Linkedin: <a id="linkedin" target="_blank"></a></p>
@@ -39,73 +38,7 @@
         </div>
       </div>
     </footer>
-
-    <script type="module">
-      import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs";
-
-      pdfjsLib.GlobalWorkerOptions.workerSrc =
-        "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
-
-      const container = document.getElementById("cv-container");
-      const pdfUrl = "images/cv.pdf";
-
-      async function renderCV() {
-        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-        container.innerHTML = "";
-
-        const displayWidth = container.clientWidth || 968;
-        const dpr = window.devicePixelRatio || 1;
-
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-          const page = await pdf.getPage(pageNum);
-          const unscaledViewport = page.getViewport({ scale: 1 });
-          const scale = displayWidth / unscaledViewport.width;
-
-          const cssViewport = page.getViewport({ scale });
-          const renderViewport = page.getViewport({ scale: scale * dpr });
-
-          const pageEl = document.createElement("div");
-          pageEl.className = "cv-page";
-          pageEl.style.width = `${cssViewport.width}px`;
-          pageEl.style.height = `${cssViewport.height}px`;
-
-          const canvas = document.createElement("canvas");
-          canvas.width = Math.floor(renderViewport.width);
-          canvas.height = Math.floor(renderViewport.height);
-          canvas.style.width = `${cssViewport.width}px`;
-          canvas.style.height = `${cssViewport.height}px`;
-
-          const textLayerEl = document.createElement("div");
-          textLayerEl.className = "textLayer";
-          textLayerEl.style.setProperty("--scale-factor", String(scale));
-
-          pageEl.appendChild(canvas);
-          pageEl.appendChild(textLayerEl);
-          container.appendChild(pageEl);
-
-          await page.render({
-            canvasContext: canvas.getContext("2d"),
-            viewport: renderViewport,
-          }).promise;
-
-          const textContent = await page.getTextContent();
-          const textLayer = new pdfjsLib.TextLayer({
-            textContentSource: textContent,
-            container: textLayerEl,
-            viewport: cssViewport,
-          });
-          await textLayer.render();
-        }
-      }
-
-      renderCV();
-
-      let resizeTimer;
-      window.addEventListener("resize", () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(renderCV, 150);
-      });
-    </script>
+    <script type="module" src="js/pdf-embed.js"></script>
     <script src="vars.js"></script>
   </body>
 </html>
