@@ -130,3 +130,47 @@ footer {
     display: contents;
   }
 }
+
+/* === Seamless CV Renderer === */
+.cv-pages {
+  width: 100%;
+  overflow: visible;
+}
+
+.cv-page {
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.cv-page canvas {
+  display: block;
+}
+
+.cv-page .textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  line-height: 1;
+  text-size-adjust: none;
+  user-select: text;
+}
+
+.cv-page .textLayer span,
+.cv-page .textLayer br {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  transform-origin: 0% 0%;
+}
+
+.cv-page .textLayer ::selection {
+  background: rgba(74, 144, 226, 0.25);
+}
+
+.cv-actions {
+  margin-top: 1rem;
+  text-align: center;
+}
